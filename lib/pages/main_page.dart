@@ -7,7 +7,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar,
-      body: _buildBody,
+      body: _buildBody2,
       bottomNavigationBar: _buildBottom,
       floatingActionButton: _buildFloating,
     );
@@ -58,6 +58,65 @@ class MainPage extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
         ],
       ),
+    );
+  }
+
+  Widget get _buildBody2 {
+    return Container(
+      color: Color.fromARGB(255, 173, 173, 173),
+      alignment: Alignment.center,
+      child: _buildCircleImage(
+          "https://phantom-marca.unidadeditorial.es/39e946fa35be43d0abcde9d0732bfb34/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/24/16534218383219.jpg"),
+    );
+  }
+
+  Widget _buildCircleImage(String Image,
+      {double width = 200, double height = 200}) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+          color: Colors.deepOrange,
+          shape: BoxShape.circle,
+          image:
+              DecorationImage(image: NetworkImage(Image), fit: BoxFit.cover)),
+    );
+  }
+
+  Widget _buildCircle() {
+    return Container(
+      width: 150,
+      height: 150,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
+          gradient: LinearGradient(
+            stops: [0.4, 0.5],
+            colors: [
+              Colors.yellow,
+              Colors.purple,
+            ],
+          )),
+    );
+  }
+
+  Widget _buildButton(String text) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 30),
+      ),
+      decoration: BoxDecoration(
+          color: Colors.pink,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.brown,
+                offset: Offset(3, 3),
+                blurRadius: 3,
+                spreadRadius: 3)
+          ]),
     );
   }
 
