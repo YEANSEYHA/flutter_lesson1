@@ -7,7 +7,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar,
-      body: _buildBody2,
+      body: buildText(),
       bottomNavigationBar: _buildBottom,
       floatingActionButton: _buildFloating,
     );
@@ -125,5 +125,18 @@ class MainPage extends StatelessWidget {
       onPressed: () {},
       child: Icon(Icons.pin_drop),
     );
+  }
+
+  Widget _buildCircleImage2({double radius = 50, NetworkImage? image}) {
+    return CircleAvatar(
+      radius: radius,
+      backgroundImage: image,
+    );
+  }
+
+  // prevent null safety problems
+  Widget buildText({Text? text}) {
+    text ??= Text('Hello');
+    return Container(alignment: Alignment.center, child: text);
   }
 }

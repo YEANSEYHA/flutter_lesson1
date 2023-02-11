@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lesson01/pages/main_page.dart';
+import 'package:lesson01/movie_module/apps/movie_app.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: MainPage());
-  }
+  runApp(MovieApp());
 }
