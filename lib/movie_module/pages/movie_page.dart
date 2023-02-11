@@ -1,6 +1,5 @@
 import '../constants/movie_list_constant.dart';
 import 'package:flutter/material.dart';
-
 import '../models/movie_model.dart';
 
 class MoviePage extends StatefulWidget {
@@ -19,7 +18,28 @@ class _MoviePageState extends State<MoviePage> {
         backgroundColor: Colors.grey[900],
         title: Text("Movie 24"),
       ),
-      body: _buildBody(),
+      body: _buildBodyGridView(),
+    );
+  }
+
+  Widget _buildBodyGridView() {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 130,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
+          childAspectRatio: 6 / 12,
+        ),
+        itemCount: movieList.length,
+        itemBuilder: (context, index) {
+          return _buildGridItem(movieList[index]);
+        });
+  }
+
+  Widget _buildGridItem(MovieModel item) {
+    return Image.network(
+      item.image,
+      fit: BoxFit.cover,
     );
   }
 
