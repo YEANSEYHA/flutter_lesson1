@@ -1,6 +1,7 @@
+import '../constants/movie_list_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:lesson01/movie_module/constants/movie_list_constant.dart';
-import 'package:lesson01/movie_module/models/movie_model.dart';
+
+import '../models/movie_model.dart';
 
 class MoviePage extends StatefulWidget {
   const MoviePage({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _MoviePageState extends State<MoviePage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: Text("Movie 365"),
+        title: Text("Movie 24"),
       ),
       body: _buildBody(),
     );
@@ -26,63 +27,52 @@ class _MoviePageState extends State<MoviePage> {
     return ListView.builder(
       itemCount: movieList.length,
       itemBuilder: (context, index) {
-        return _buildItem(movieList[index]);
+        return _buildItem(movieList[index], corner: 20);
       },
     );
   }
 
-  List<String> _images = [
-    "https://m.media-amazon.com/images/M/MV5BYzFhM2M1MDUtNDhmNC00YzEzLThiMzctYWYxZTc0MGJhNWYyXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-    "https://imageio.forbes.com/specials-images/imageserve/63bc9f3ad64762ff31f26064/0x0.jpg?format=jpg&width=1200",
-    "https://media.glamour.com/photos/638e476b4640457ce2470cc8/master/w_382,h_566,c_limit/antmanandthewaspquantumania_lob_crd_02.jpg",
-    "https://m.media-amazon.com/images/M/MV5BN2FkOWQ3YzItNmNhZi00ZWNlLThjYTMtZWIyZDc2YjQzMjk3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
-    "https://fr.web.img2.acsta.net/pictures/22/07/29/09/44/2282623.jpg",
-    "https://source.boomplaymusic.com/buzzgroup2/M00/37/DE/rBEeJGKxjXyAfuaLAALDc3CS9iQ25.jpeg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvcuH9KP84U97TwcQIPutP2WdsG8Yuo6RSr2qmXCs7QXNqdUh20tlB3E67aZgHBIP8sbw&usqp=CAU",
-    "https://images.fandango.com/ImageRenderer/0/0/redesign/static/img/default_poster.png/0/images/masterrepository/Fandango/230357/TDC_Poster_THEATRE_27x40_LowRes.jpg",
-  ];
-
-  Widget _buildListViewBuilder() {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      reverse: false,
-      itemCount: _images.length,
-      itemBuilder: (context, index) {
-        return _buildItem(_images[index]);
-      },
-    );
-  }
-
-  Widget _buildItem(String item) {
+  Widget _buildItem(MovieModel item, {double corner = 10}) {
     return Container(
-      height: 300,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: NetworkImage(item),
-          fit: BoxFit.cover,
-        ),
-      ),
-      margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
-    );
-  }
-
-  final _scrollController = ScrollController();
-
-  Widget _buildSimpleListView() {
-    return ListView(
-      reverse: true,
-      controller: _scrollController,
-      physics: BouncingScrollPhysics(),
-      children: [
-        Container(width: 170, height: 150, color: Colors.pink),
-        Container(width: 50, height: 170, color: Colors.orange),
-        Container(width: 80, height: 100, color: Colors.lime),
-        Container(width: 90, height: 160, color: Colors.blue),
-        Container(width: 180, height: 100, color: Colors.cyan),
-        Container(width: 190, height: 160, color: Colors.purple),
-      ],
+      margin: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Container(
+            height: 350,
+            width: double.maxFinite,
+            decoration: BoxDecoration(
+              color: Colors.grey[900],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(corner),
+                topRight: Radius.circular(corner),
+              ),
+              image: DecorationImage(
+                image: NetworkImage(item.image),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(corner),
+                bottomRight: Radius.circular(corner),
+              ),
+            ),
+            child: Text(
+              "${item.title}",
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
