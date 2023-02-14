@@ -1,5 +1,6 @@
-import '../constants/movie_list_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson01/movie_module/constants/movie_list_constant.dart';
+
 import '../models/movie_model.dart';
 
 class MoviePage extends StatefulWidget {
@@ -18,22 +19,175 @@ class _MoviePageState extends State<MoviePage> {
         backgroundColor: Colors.grey[900],
         title: Text("Movie 24"),
       ),
-      body: _buildBodyGridView(),
+      body: _buildBody(),
     );
   }
 
-  Widget _buildBodyGridView() {
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 130,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-          childAspectRatio: 6 / 12,
-        ),
+  Widget _buildBody() {
+    return ListView(
+      children: [
+        _buildTopPanel(),
+        _buildHorizontalListView(),
+        _buildGridView(),
+        _buildListView(),
+      ],
+    );
+  }
+
+  Widget _buildHorizontalListView() {
+    return Container(
+      color: Colors.grey[900],
+      height: 300,
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
         itemCount: movieList.length,
         itemBuilder: (context, index) {
-          return _buildGridItem(movieList[index]);
-        });
+          return _buildHorizontalItem(movieList[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildHorizontalItem(MovieModel item) {
+    return Container(
+      width: 130,
+      // height: 1000, //Don't set height because it doesn't affect
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        image: DecorationImage(
+          image: NetworkImage(item.image),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopPanel() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      color: Colors.white,
+      child: Column(
+        children: [
+          _buildProfile(_cris, "@cris_tiktok"),
+          SizedBox(height: 10),
+          _buildRowLike(),
+          SizedBox(height: 10),
+          _buildRowFollow(),
+        ],
+      ),
+    );
+  }
+
+  String _cris =
+      "https://variety.com/wp-content/uploads/2022/11/GettyImages-1442079658.jpg?w=1000&h=563&crop=1";
+
+  Widget _buildProfile(String image, String id) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 70,
+            backgroundImage: NetworkImage(image),
+          ),
+          SizedBox(height: 10),
+          Text(id),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRowLike() {
+    return SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildIconWithText(Icons.thumb_up, "56.2K"),
+          SizedBox(width: 30),
+          _buildIconWithText(Icons.favorite, "135K"),
+          SizedBox(width: 30),
+          _buildIconWithText(Icons.video_collection, "121"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIconWithText(IconData icon, String text) {
+    return Column(
+      children: [
+        Icon(icon),
+        Text(text),
+      ],
+    );
+  }
+
+  Widget _buildRowFollow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildFollowButton(),
+        SizedBox(width: 10),
+        _buildDownMenuIcon(),
+        SizedBox(width: 10),
+        _buildPlayIcon(),
+      ],
+    );
+  }
+
+  Widget _buildFollowButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 50),
+        backgroundColor: Colors.pink,
+        foregroundColor: Colors.white,
+      ),
+      onPressed: () {},
+      child: Text("FOLLOW"),
+    );
+  }
+
+  Widget _buildDownMenuIcon() {
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.grey[50],
+        foregroundColor: Colors.pink,
+        side: BorderSide(color: Colors.grey.withOpacity(0.5)),
+      ),
+      onPressed: () {},
+      child: Icon(Icons.arrow_drop_down_outlined),
+    );
+  }
+
+  Widget _buildPlayIcon() {
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.grey[50],
+        foregroundColor: Colors.pink,
+        side: BorderSide(color: Colors.grey.withOpacity(0.5)),
+      ),
+      onPressed: () {},
+      child: Icon(Icons.play_arrow),
+    );
+  }
+
+  Widget _buildGridView() {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 130,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: 6 / 12,
+      ),
+      itemCount: movieList.length,
+      itemBuilder: (context, index) {
+        return _buildGridItem(movieList[index]);
+      },
+    );
   }
 
   Widget _buildGridItem(MovieModel item) {
@@ -43,8 +197,10 @@ class _MoviePageState extends State<MoviePage> {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildListView() {
     return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemCount: movieList.length,
       itemBuilder: (context, index) {
         return _buildItem(movieList[index], corner: 20);
