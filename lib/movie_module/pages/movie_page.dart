@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/movie_module/constants/movie_list_constant.dart';
+import 'package:lesson01/movie_module/pages/movie_detail.dart';
 
 import '../models/movie_model.dart';
 
@@ -26,8 +27,6 @@ class _MoviePageState extends State<MoviePage> {
   Widget _buildBody() {
     return ListView(
       children: [
-        _buildTopPanel(),
-        _buildHorizontalListView(),
         _buildGridView(),
         _buildListView(),
       ],
@@ -191,9 +190,15 @@ class _MoviePageState extends State<MoviePage> {
   }
 
   Widget _buildGridItem(MovieModel item) {
-    return Image.network(
-      item.image,
-      fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MovieDetail()));
+      },
+      child: Image.network(
+        item.image,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
