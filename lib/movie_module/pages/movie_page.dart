@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/movie_module/constants/movie_list_constant.dart';
+import 'package:lesson01/movie_module/pages/movie_detail_page.dart';
 
 import '../models/movie_model.dart';
 
@@ -51,15 +52,22 @@ class _MoviePageState extends State<MoviePage> {
   }
 
   Widget _buildHorizontalItem(MovieModel item) {
-    return Container(
-      width: 130,
-      // height: 1000, //Don't set height because it doesn't affect
-      margin: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        image: DecorationImage(
-          image: NetworkImage(item.image),
-          fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MovieDetailPage(item),
+            fullscreenDialog: true));
+      },
+      child: Container(
+        width: 130,
+        // height: 1000, //Don't set height because it doesn't affect
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          image: DecorationImage(
+            image: NetworkImage(item.image),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -191,9 +199,16 @@ class _MoviePageState extends State<MoviePage> {
   }
 
   Widget _buildGridItem(MovieModel item) {
-    return Image.network(
-      item.image,
-      fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        print('Clicked movie poster');
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => MovieDetailPage(item)));
+      },
+      child: Image.network(
+        item.image,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
@@ -209,45 +224,51 @@ class _MoviePageState extends State<MoviePage> {
   }
 
   Widget _buildItem(MovieModel item, {double corner = 10}) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Container(
-            height: 350,
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(corner),
-                topRight: Radius.circular(corner),
-              ),
-              image: DecorationImage(
-                image: NetworkImage(item.image),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(corner),
-                bottomRight: Radius.circular(corner),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => MovieDetailPage(item)));
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Container(
+              height: 350,
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(corner),
+                  topRight: Radius.circular(corner),
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(item.image),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            child: Text(
-              "${item.title}",
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 18,
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(corner),
+                  bottomRight: Radius.circular(corner),
+                ),
+              ),
+              child: Text(
+                "${item.title}",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
