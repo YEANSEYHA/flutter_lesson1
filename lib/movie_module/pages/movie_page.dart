@@ -17,7 +17,7 @@ class _MoviePageState extends State<MoviePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        // backgroundColor: Colors.grey[900],
         title: Text("Movie 24"),
       ),
       body: _buildBody(),
@@ -147,11 +147,11 @@ class _MoviePageState extends State<MoviePage> {
 
   Widget _buildFollowButton() {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 50),
-        backgroundColor: Colors.pink,
-        foregroundColor: Colors.white,
-      ),
+      // style: ElevatedButton.styleFrom(
+      //   padding: EdgeInsets.symmetric(horizontal: 50),
+      //   backgroundColor: Colors.pink,
+      //   foregroundColor: Colors.white,
+      // ),
       onPressed: () {},
       child: Text("FOLLOW"),
     );
@@ -261,10 +261,10 @@ class _MoviePageState extends State<MoviePage> {
               ),
               child: Text(
                 "${item.title}",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
+                // style: TextStyle(
+                //   color: Colors.black87,
+                //   fontSize: 18,
+                // ),
               ),
             ),
           ],
