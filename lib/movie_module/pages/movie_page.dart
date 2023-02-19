@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/movie_module/constants/movie_list_constant.dart';
 import 'package:lesson01/movie_module/pages/movie_detail_page.dart';
+import 'package:lesson01/movie_module/widgets/slideshow_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../models/movie_model.dart';
 
@@ -15,11 +17,7 @@ class _MoviePageState extends State<MoviePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        // backgroundColor: Colors.grey[900],
-        title: Text("Movie 24"),
-      ),
+      appBar: AppBar(title: Text("Movie 24")),
       body: _buildBody(),
     );
   }
@@ -27,6 +25,7 @@ class _MoviePageState extends State<MoviePage> {
   Widget _buildBody() {
     return ListView(
       children: [
+        _buildCarousel(),
         _buildTopPanel(),
         _buildHorizontalListView(),
         _buildGridView(),
@@ -35,9 +34,25 @@ class _MoviePageState extends State<MoviePage> {
     );
   }
 
+  Widget _buildCarousel() {
+    return CarouselSlider.builder(
+      options: CarouselOptions(),
+      itemCount: movieList.length,
+      itemBuilder: (context, index, pageViewIndex) {
+        return _buildCarouselItem(movieList[index]);
+      },
+    );
+  }
+
+  Widget _buildCarouselItem(MovieModel item) {
+    return SizedBox(
+      width: double.maxFinite,
+      child: Image.network(item.image, fit: BoxFit.cover),
+    );
+  }
+
   Widget _buildHorizontalListView() {
     return Container(
-      color: Colors.grey[900],
       height: 300,
       padding: EdgeInsets.symmetric(vertical: 20),
       child: ListView.builder(
@@ -54,16 +69,19 @@ class _MoviePageState extends State<MoviePage> {
   Widget _buildHorizontalItem(MovieModel item) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (context) => MovieDetailPage(item),
-            fullscreenDialog: true));
+            fullscreenDialog: true,
+          ),
+        );
       },
       child: Container(
-        width: 130,
+        width: 230,
         // height: 1000, //Don't set height because it doesn't affect
         margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
             image: NetworkImage(item.image),
             fit: BoxFit.cover,
@@ -76,7 +94,6 @@ class _MoviePageState extends State<MoviePage> {
   Widget _buildTopPanel() {
     return Container(
       padding: EdgeInsets.all(20),
-      color: Colors.white,
       child: Column(
         children: [
           _buildProfile(_cris, "@cris_tiktok"),
@@ -146,24 +163,17 @@ class _MoviePageState extends State<MoviePage> {
   }
 
   Widget _buildFollowButton() {
-    return ElevatedButton(
-      // style: ElevatedButton.styleFrom(
-      //   padding: EdgeInsets.symmetric(horizontal: 50),
-      //   backgroundColor: Colors.pink,
-      //   foregroundColor: Colors.white,
-      // ),
-      onPressed: () {},
-      child: Text("FOLLOW"),
+    return SizedBox(
+      width: 200,
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text("FOLLOW"),
+      ),
     );
   }
 
   Widget _buildDownMenuIcon() {
     return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.grey[50],
-        foregroundColor: Colors.pink,
-        side: BorderSide(color: Colors.grey.withOpacity(0.5)),
-      ),
       onPressed: () {},
       child: Icon(Icons.arrow_drop_down_outlined),
     );
@@ -171,11 +181,6 @@ class _MoviePageState extends State<MoviePage> {
 
   Widget _buildPlayIcon() {
     return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.grey[50],
-        foregroundColor: Colors.pink,
-        side: BorderSide(color: Colors.grey.withOpacity(0.5)),
-      ),
       onPressed: () {},
       child: Icon(Icons.play_arrow),
     );
@@ -201,9 +206,11 @@ class _MoviePageState extends State<MoviePage> {
   Widget _buildGridItem(MovieModel item) {
     return InkWell(
       onTap: () {
-        print('Clicked movie poster');
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => MovieDetailPage(item)));
+          MaterialPageRoute(
+            builder: (context) => MovieDetailPage(item),
+          ),
+        );
       },
       child: Image.network(
         item.image,
@@ -227,7 +234,10 @@ class _MoviePageState extends State<MoviePage> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => MovieDetailPage(item)));
+          MaterialPageRoute(
+            builder: (context) => MovieDetailPage(item),
+          ),
+        );
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -238,7 +248,7 @@ class _MoviePageState extends State<MoviePage> {
               height: 350,
               width: double.maxFinite,
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                // color: Colors.grey[900],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(corner),
                   topRight: Radius.circular(corner),
@@ -253,19 +263,13 @@ class _MoviePageState extends State<MoviePage> {
               alignment: Alignment.center,
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey[800],
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(corner),
                   bottomRight: Radius.circular(corner),
                 ),
               ),
-              child: Text(
-                "${item.title}",
-                // style: TextStyle(
-                //   color: Colors.black87,
-                //   fontSize: 18,
-                // ),
-              ),
+              child: Text("${item.title}"),
             ),
           ],
         ),
