@@ -105,6 +105,16 @@ class _StatePageState extends State<StatePage> {
                   context.read<LanguageLogic>().changeToKhmer();
                 },
               ),
+              ListTile(
+                leading: Text("中文"),
+                title: Text(lang.changeToChinese),
+                trailing: Icon(lang == languageList[2]
+                    ? Icons.check_box_rounded
+                    : Icons.check_box_outline_blank),
+                onTap: () {
+                  context.read<LanguageLogic>().changeToChinese();
+                },
+              ),
             ],
           ),
         ],

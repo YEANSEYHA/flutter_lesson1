@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lesson01/state_module/constants/language_constant.dart';
 
 class LanguageLogic extends ChangeNotifier {
-  Language _lang = languageList[0];
+  Language _lang = languageList[1];
   Language get lang => _lang;
 
   void changeToEnglish() {
@@ -12,6 +12,11 @@ class LanguageLogic extends ChangeNotifier {
 
   void changeToKhmer() {
     _lang = languageList[1];
+    notifyListeners();
+  }
+
+  void changeToChinese() {
+    _lang = languageList[2];
     notifyListeners();
   }
 }
