@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/state_module/logics/counter_logic.dart';
+import 'package:lesson01/state_module/logics/language_logic.dart';
 import 'package:lesson01/state_module/logics/theme_logic.dart';
 import 'package:lesson01/state_module/pages/state_page.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ Widget appWithProvider() {
     providers: [
       ChangeNotifierProvider(create: (context) => CounterLogic()),
       ChangeNotifierProvider(create: (context) => ThemeLogic()),
+      ChangeNotifierProvider(create: (context) => LanguageLogic()),
     ],
     child: StateApp(),
   );
@@ -31,6 +33,7 @@ class StateApp extends StatelessWidget {
         canvasColor: Colors.pink[50],
         primarySwatch: Colors.pink,
         textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 18),
           bodyText2: TextStyle(fontSize: 20 + counter.toDouble()),
         ),
       ),
@@ -41,6 +44,7 @@ class StateApp extends StatelessWidget {
           backgroundColor: Colors.blueGrey[800],
         ),
         textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 18),
           bodyText2: TextStyle(fontSize: 20 + counter.toDouble()),
         ),
       ),

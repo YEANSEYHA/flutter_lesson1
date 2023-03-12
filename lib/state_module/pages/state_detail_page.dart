@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lesson01/state_module/constants/language_constant.dart';
 import 'package:lesson01/state_module/logics/counter_logic.dart';
+import 'package:lesson01/state_module/logics/language_logic.dart';
 import 'package:provider/provider.dart';
 
 class StateDetailPage extends StatefulWidget {
@@ -19,8 +21,9 @@ class _StateDetailPageState extends State<StateDetailPage> {
   }
 
   AppBar _buildAppBar() {
+    Language lang = context.watch<LanguageLogic>().lang;
     return AppBar(
-      title: Text("State Detail Page"),
+      title: Text(lang.detailPageName),
     );
   }
 

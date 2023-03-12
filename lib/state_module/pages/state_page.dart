@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lesson01/state_module/constants/language_constant.dart';
 import 'package:lesson01/state_module/logics/counter_logic.dart';
+import 'package:lesson01/state_module/logics/language_logic.dart';
 import 'package:lesson01/state_module/logics/theme_logic.dart';
 import 'package:lesson01/state_module/pages/state_detail_page.dart';
 import 'package:lesson01/state_module/widgets/minus_button_widget.dart';
@@ -25,6 +27,7 @@ class _StatePageState extends State<StatePage> {
 
   Widget _buildDrawer() {
     ThemeMode mode = context.watch<ThemeLogic>().mode;
+    Language lang = context.watch<LanguageLogic>().lang;
 
     return Drawer(
       child: ListView(
@@ -36,19 +39,19 @@ class _StatePageState extends State<StatePage> {
           )),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text("Home"),
+            title: Text(lang.home),
           ),
           ListTile(
             leading: Icon(Icons.phone),
-            title: Text("Contact"),
+            title: Text(lang.contact),
           ),
           ExpansionTile(
-            title: Text("Theme"),
+            title: Text(lang.theme),
             initiallyExpanded: true,
             children: [
               ListTile(
                 leading: Icon(Icons.dark_mode),
-                title: Text("Change To Dark"),
+                title: Text(lang.changeToDark),
                 trailing: Icon(mode == ThemeMode.dark
                     ? Icons.check_box_rounded
                     : Icons.check_box_outline_blank),
@@ -58,7 +61,7 @@ class _StatePageState extends State<StatePage> {
               ),
               ListTile(
                 leading: Icon(Icons.light_mode),
-                title: Text("Change To Light"),
+                title: Text(lang.changeToLight),
                 trailing: Icon(mode == ThemeMode.light
                     ? Icons.check_box_rounded
                     : Icons.check_box_outline_blank),
@@ -68,12 +71,38 @@ class _StatePageState extends State<StatePage> {
               ),
               ListTile(
                 leading: Icon(Icons.phone_android),
-                title: Text("Change To System"),
+                title: Text(lang.changeToSystem),
                 trailing: Icon(mode == ThemeMode.system
                     ? Icons.check_box_rounded
                     : Icons.check_box_outline_blank),
                 onTap: () {
                   context.read<ThemeLogic>().changeToSystem();
+                },
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text(lang.language),
+            initiallyExpanded: true,
+            children: [
+              ListTile(
+                leading: Text("EN"),
+                title: Text(lang.changeToEnglish),
+                trailing: Icon(lang == languageList[0]
+                    ? Icons.check_box_rounded
+                    : Icons.check_box_outline_blank),
+                onTap: () {
+                  context.read<LanguageLogic>().changeToEnglish();
+                },
+              ),
+              ListTile(
+                leading: Text("ខ្មែរ"),
+                title: Text(lang.changeToKhmer),
+                trailing: Icon(lang == languageList[1]
+                    ? Icons.check_box_rounded
+                    : Icons.check_box_outline_blank),
+                onTap: () {
+                  context.read<LanguageLogic>().changeToKhmer();
                 },
               ),
             ],
@@ -84,8 +113,10 @@ class _StatePageState extends State<StatePage> {
   }
 
   AppBar _buildAppBar() {
+    Language lang = context.watch<LanguageLogic>().lang;
+
     return AppBar(
-      title: Text("State Page"),
+      title: Text(lang.homePageName),
       actions: [
         IconButton(
           onPressed: () {
