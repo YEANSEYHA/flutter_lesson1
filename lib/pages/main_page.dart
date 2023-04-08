@@ -6,6 +6,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: _buildAppBar,
       body: buildText(),
       bottomNavigationBar: _buildBottom,
