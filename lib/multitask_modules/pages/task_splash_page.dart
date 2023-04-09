@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/multitask_modules/logics/post_logic.dart';
-import 'package:lesson01/multitask_modules/logics/randomuser_module.dart';
-import 'package:lesson01/multitask_modules/pages/randomuser_page.dart';
+import 'package:lesson01/multitask_modules/logics/randomuser_logic.dart';
+import 'package:lesson01/multitask_modules/pages/multi_main_page.dart';
 import 'package:provider/provider.dart';
 
 class TaskSplashPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _TaskSplashPageState extends State<TaskSplashPage> {
       await context.read<RandomUserLogic>().read();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => RandomUserPage(),
+          builder: (context) => MultiMainPage(),
         ),
       );
     });

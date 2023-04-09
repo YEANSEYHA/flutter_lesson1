@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/multitask_modules/logics/post_logic.dart';
 import 'package:lesson01/multitask_modules/models/post_model.dart';
+import 'package:lesson01/multitask_modules/widgets/offline_widget.dart';
 import 'package:provider/provider.dart';
 
 class TaskPage extends StatefulWidget {
@@ -45,7 +46,11 @@ class _TaskPageState extends State<TaskPage> {
           _buildListView(postList),
           Positioned(
             bottom: 20,
-            child: _buildOffline(),
+            child: OfflineWidget(
+              onRetry: () async {
+                await context.read<PostLogic>().read();
+              },
+            ),
           ),
         ],
       );
@@ -54,37 +59,37 @@ class _TaskPageState extends State<TaskPage> {
     }
   }
 
-  Widget _buildOffline() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            "You're currently offline",
-            style: TextStyle(color: Colors.white),
-          ),
-          TextButton(
-            onPressed: () async {
-              await context.read<PostLogic>().read();
-            },
-            child: Row(
-              children: [
-                Icon(Icons.refresh),
-                Text(
-                  "RETRY",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildOffline() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.black87,
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+  //     child: Column(
+  //       children: [
+  //         Text(
+  //           "You're currently offline",
+  //           style: TextStyle(color: Colors.white),
+  //         ),
+  //         TextButton(
+  //           onPressed: () async {
+  //             await context.read<PostLogic>().read();
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Icon(Icons.refresh),
+  //               Text(
+  //                 "RETRY",
+  //                 style: TextStyle(fontSize: 18),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildError() {
     return Column(

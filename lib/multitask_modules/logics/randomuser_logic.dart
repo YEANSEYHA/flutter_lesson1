@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lesson01/multitask_modules/models/randomuser_module.dart';
+import 'package:lesson01/multitask_modules/models/randomuser_model.dart';
 import 'package:lesson01/multitask_modules/services/randomuser_service.dart';
 
 class RandomUserLogic extends ChangeNotifier {

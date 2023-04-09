@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/multitask_modules/logics/post_logic.dart';
-import 'package:lesson01/multitask_modules/logics/randomuser_module.dart';
+import 'package:lesson01/multitask_modules/logics/randomuser_logic.dart';
 import 'package:lesson01/multitask_modules/pages/task_splash_page.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lesson01/multitask_modules/logics/randomuser_module.dart';
-import 'package:lesson01/multitask_modules/models/randomuser_module.dart';
+import 'package:lesson01/multitask_modules/logics/randomuser_logic.dart';
+import 'package:lesson01/multitask_modules/models/randomuser_model.dart';
+import 'package:lesson01/multitask_modules/widgets/offline_widget.dart';
 import 'package:provider/provider.dart';
 
 class RandomUserPage extends StatefulWidget {
@@ -42,80 +43,84 @@ class _RandomUserPageState extends State<RandomUserPage> {
       return Stack(
         alignment: Alignment.center,
         children: [
-          _buildInfo(userModel.info),
+          _buildListView(userModel.results),
           Positioned(
             bottom: 20,
-            child: _buildOffline(),
+            child: OfflineWidget(
+              onRetry: () async {
+                await context.read<RandomUserLogic>().read();
+              },
+            ),
           ),
         ],
       );
     } else {
-      return _buildInfo(userModel!.info);
+      return _buildListView(userModel!.results);
     }
   }
 
-  Widget _buildInfo(Info info) {
-    return ListView(
-      children: [
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.info),
-            title: Text("${info.seed}"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.account_balance_wallet),
-            title: Text("${info.results}"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.numbers),
-            title: Text("${info.page}"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.title),
-            title: Text("${info.version}"),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildInfo(Info info) {
+  //   return ListView(
+  //     children: [
+  //       Card(
+  //         child: ListTile(
+  //           leading: Icon(Icons.info),
+  //           title: Text("${info.seed}"),
+  //         ),
+  //       ),
+  //       Card(
+  //         child: ListTile(
+  //           leading: Icon(Icons.account_balance_wallet),
+  //           title: Text("${info.results}"),
+  //         ),
+  //       ),
+  //       Card(
+  //         child: ListTile(
+  //           leading: Icon(Icons.numbers),
+  //           title: Text("${info.page}"),
+  //         ),
+  //       ),
+  //       Card(
+  //         child: ListTile(
+  //           leading: Icon(Icons.title),
+  //           title: Text("${info.version}"),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget _buildOffline() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            "You're currently offline",
-            style: TextStyle(color: Colors.white),
-          ),
-          TextButton(
-            onPressed: () async {
-              await context.read<RandomUserLogic>().read();
-            },
-            child: Row(
-              children: [
-                Icon(Icons.refresh),
-                Text(
-                  "RETRY",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildOffline() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       color: Colors.black87,
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+  //     child: Column(
+  //       children: [
+  //         Text(
+  //           "You're currently offline",
+  //           style: TextStyle(color: Colors.white),
+  //         ),
+  //         TextButton(
+  //           onPressed: () async {
+  //             await context.read<RandomUserLogic>().read();
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Icon(Icons.refresh),
+  //               Text(
+  //                 "RETRY",
+  //                 style: TextStyle(fontSize: 18),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildError() {
     return Column(
@@ -134,33 +139,33 @@ class _RandomUserPageState extends State<RandomUserPage> {
     );
   }
 
-// Widget _buildListView(List<PostModel>? items) {
-//   if (items == null) {
-//     return SizedBox();
-//   }
-//
-//   return RefreshIndicator(
-//     onRefresh: () async {
-//       await context.read<PostLogic>().read();
-//     },
-//     child: ListView.builder(
-//       physics: BouncingScrollPhysics(),
-//       itemCount: items.length,
-//       itemBuilder: (context, index) {
-//         return _buildItem(items[index]);
-//       },
-//     ),
-//   );
-// }
-//
-// Widget _buildItem(PostModel item) {
-//   return Card(
-//     child: ListTile(
-//       leading: Text("${item.id}"),
-//       title: Text("${item.title}"),
-//       subtitle: Text("${item.body}"),
-//       trailing: Text("${item.userId}"),
-//     ),
-//   );
-// }
+  Widget _buildListView(List<Result>? items) {
+    if (items == null) {
+      return SizedBox();
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        await context.read<RandomUserLogic>().read();
+      },
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return _buildItem(items[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildItem(Result item) {
+    return Card(
+      child: ListTile(
+        leading: Image.network("${item.picture.large}"),
+        title: Text("${item.name.title}, ${item.name.first} ${item.name.last}"),
+        subtitle: Text("${item.location.city}, ${item.location.country}"),
+        trailing: Text("${item.nat}"),
+      ),
+    );
+  }
 }
