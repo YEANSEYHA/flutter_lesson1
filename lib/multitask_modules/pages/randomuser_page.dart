@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lesson01/multitask_modules/logics/randomuser_logic.dart';
 import 'package:lesson01/multitask_modules/models/randomuser_model.dart';
+import 'package:lesson01/multitask_modules/pages/randomuser_detail_page.dart';
+import 'package:lesson01/multitask_modules/utils/nav_util.dart';
+import 'package:lesson01/multitask_modules/widgets/nointernet_widget.dart';
 import 'package:lesson01/multitask_modules/widgets/offline_widget.dart';
 import 'package:provider/provider.dart';
+import '../logics/post_logic.dart';
 
 class RandomUserPage extends StatefulWidget {
   const RandomUserPage({Key? key}) : super(key: key);
@@ -17,7 +21,7 @@ class _RandomUserPageState extends State<RandomUserPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("Random User Task"),
+        title: Text("Random User"),
       ),
       body: _buildBody(),
     );
@@ -36,7 +40,13 @@ class _RandomUserPageState extends State<RandomUserPage> {
 
     if (error != null && userModel == null) {
       debugPrint("error: $error");
-      return _buildError();
+      return NoInternetWidget(
+        onRetry: () async {
+          context.read<RandomUserLogic>().setLoading();
+          await context.read<RandomUserLogic>().read();
+          await context.read<PostLogic>().read();
+        },
+      );
     }
 
     if (error != null && userModel != null) {
@@ -57,86 +67,6 @@ class _RandomUserPageState extends State<RandomUserPage> {
     } else {
       return _buildListView(userModel!.results);
     }
-  }
-
-  // Widget _buildInfo(Info info) {
-  //   return ListView(
-  //     children: [
-  //       Card(
-  //         child: ListTile(
-  //           leading: Icon(Icons.info),
-  //           title: Text("${info.seed}"),
-  //         ),
-  //       ),
-  //       Card(
-  //         child: ListTile(
-  //           leading: Icon(Icons.account_balance_wallet),
-  //           title: Text("${info.results}"),
-  //         ),
-  //       ),
-  //       Card(
-  //         child: ListTile(
-  //           leading: Icon(Icons.numbers),
-  //           title: Text("${info.page}"),
-  //         ),
-  //       ),
-  //       Card(
-  //         child: ListTile(
-  //           leading: Icon(Icons.title),
-  //           title: Text("${info.version}"),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildOffline() {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       color: Colors.black87,
-  //       borderRadius: BorderRadius.circular(20),
-  //     ),
-  //     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-  //     child: Column(
-  //       children: [
-  //         Text(
-  //           "You're currently offline",
-  //           style: TextStyle(color: Colors.white),
-  //         ),
-  //         TextButton(
-  //           onPressed: () async {
-  //             await context.read<RandomUserLogic>().read();
-  //           },
-  //           child: Row(
-  //             children: [
-  //               Icon(Icons.refresh),
-  //               Text(
-  //                 "RETRY",
-  //                 style: TextStyle(fontSize: 18),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget _buildError() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.warning_outlined),
-        Text("Something went wrong"),
-        ElevatedButton(
-          onPressed: () async {
-            context.read<RandomUserLogic>().setLoading();
-            await context.read<RandomUserLogic>().read();
-          },
-          child: Text("RETRY"),
-        ),
-      ],
-    );
   }
 
   Widget _buildListView(List<Result>? items) {
@@ -161,6 +91,12 @@ class _RandomUserPageState extends State<RandomUserPage> {
   Widget _buildItem(Result item) {
     return Card(
       child: ListTile(
+        onTap: () {
+          NavUtil.go(
+            context: context,
+            to: RandomUserDetailPage(item),
+          );
+        },
         leading: Image.network("${item.picture.large}"),
         title: Text("${item.name.title}, ${item.name.first} ${item.name.last}"),
         subtitle: Text("${item.location.city}, ${item.location.country}"),
