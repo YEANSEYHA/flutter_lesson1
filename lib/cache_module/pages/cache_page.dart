@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../constants/language_constant.dart';
 import '../logics/counter_logic.dart';
 import '../logics/language_logic.dart';
@@ -124,7 +123,6 @@ class _CachePageState extends State<CachePage> {
   }
 
   AppBar _buildAppBar() {
-
     Language lang = context.watch<LanguageLogic>().lang;
 
     return AppBar(

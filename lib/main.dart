@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lesson01/basic_module/basic_app.dart';
 import 'package:lesson01/cache_module/apps/cache_app.dart';
+import 'package:lesson01/localhost_module/apps/localhost_app.dart';
 // import 'package:lesson01/basic_module/basic_app.dart';
 // import 'package:lesson01/movie_module/apps/movie_app.dart';
 import 'package:lesson01/multitask_modules/apps/task_app.dart';
@@ -8,5 +10,5 @@ import 'package:lesson01/multitask_modules/apps/task_app.dart';
 // import 'package:lesson01/state_module/apps/state_app.dart';
 
 void main() {
-  runApp(cacheAppWithProvider());
+  runApp(localhostWithProvider());
 }
